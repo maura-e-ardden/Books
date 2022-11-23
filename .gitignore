@@ -16,6 +16,7 @@ bin/
 #Gradle
 .gradletasknamecache
 .gradle/
+!gradle/wrapper/gradle-wrapper.jar
 
 #Ruby
 vendor
