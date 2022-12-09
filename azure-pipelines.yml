@@ -11,6 +11,7 @@ pool:
 
 variables:
   SERVER_IP: 54.235.12.244
+  ScanCentral.ClientToken: Nzk5YTA5NGEtYmI0My00YmQ1LWE1MjktMTlhY2EzYzhiNzcz
 
 steps:
 
@@ -86,7 +87,12 @@ steps:
     scanCentralClientToken: '$(ScanCentral.ClientToken)'
     sscUrl: 'https://$(SERVER_IP):8443/ssc'
     sscCiToken: '$(ScanCentral.SscCiToken)'
+    uploadToSSC: true
+    applicationName: 'Project-1'
+    applicationVersion: 'Plugin-SC-G'
+    timeoutForPollingArtifactState: 60
     buildTool: 'gradle'
+    buildFile: 'build.gradle'
     block: true
     outputFile: 'scan.fpr'
-
+    logFile: 'scn_log.fpr'
