@@ -50,7 +50,7 @@ steps:
               
               /opt/Fortify/Fortify_SCA_and_Apps_22/bin/fortifyupdate
             fi
-            enabled:false
+      enabled:false
 
 - task: Bash@3
   inputs:
