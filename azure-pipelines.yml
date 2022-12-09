@@ -29,7 +29,7 @@ steps:
     script: |
       # Fortify SCA Setup without plugin
             echo "Installing Fortify SCA"
-            if [! command -v sourceanalyzer &> /dev/null]; then
+            if [! command -v sourceanalyzer ]; then
               # Creating temporary and final directory structures
               mkdir /tmp/Fortify
               mkdir /opt/Fortify
