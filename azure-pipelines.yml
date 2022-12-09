@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variables:
-  SERVER_IP: 54.235.12.244
-  ScanCentral.ClientToken: Nzk5YTA5NGEtYmI0My00YmQ1LWE1MjktMTlhY2EzYzhiNzcz
-
 steps:
 
 - task: Gradle@2
