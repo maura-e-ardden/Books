@@ -21,3 +21,69 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Fortify SCA Setup without plugin
+            echo "Installing Fortify SCA"
+            if [! sourceanalyzer -version | grep -q Fortify ]; then
+              # Creating temporary and final directory structures
+              mkdir /tmp/Fortify
+              mkdir /opt/Fortify
+              chmod --silent -R 775 /opt/Fortify
+              cd /tmp/Fortify      
+              
+              # Download binaries from SSC
+              curl -OLS "https://$(ServerIP):8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}""
+              chmod --silent 775 Fortify_SCA_and_Apps_22.1.0_linux_x64.run
+              
+              # Run the Fortify SCA installer
+              ./Fortify_SCA_and_Apps_22.1.0_linux_x64.run         \
+              --mode unattended\
+              --installdir /opt/Fortify/Fortify_SCA_and_Apps_22\
+              --fortify_license_path /tmp/Fortify/fortify.license\
+              --MigrateSCA 0 --InstallSamples 0
+              chmod--silent -R 775 /opt/Fortify/Fortify_SCA_and_Apps_22/bin
+              
+              /opt/Fortify/Fortify_SCA_and_Apps_22/bin/fortifyupdate
+            fi
+            enabled:false
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Fortify SCA Setup using plugin
+      echo "Installing Fortify SCA"
+            
+      # Creating temporary and final directory structures
+      mkdir /tmp/Fortify
+      chmod --silent -R 775 /tmp/Fortify
+
+      # Download binaries from SSC
+      # curl -OLS "https://54.235.12.244:8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}"
+      curl -OLS "https://$(ServerIP):8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}"
+      chmod --silent 775
+
+      enabled: true
+
+- task: InstallFortifySCA@7
+  inputs:
+    InstallerPath: '/tmp/Fortify/Fortify_SCA_and_Apps_22.1.0_linux_x64.run'
+    VS2015: false
+    VS2022: true
+    LicenseFile: '/tmp/Fortify/fortify.license'
+    RunFortifyRulepackUpdate: true
+
+- task: FortifyScanCentralSAST@7
+  inputs:
+    scanCentralCtrlUrl: 'https://$(ServerIP):10443/scancentral-ctrl'
+    scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    sscUrl: 'https://$(ServerIP)4:8443/ssc'
+    sscCiToken: '$(ScanCentral.SscCiToken)'
+    buildTool: 'gradle'
+    block: true
+    outputFile: 'scan.fpr'
+
