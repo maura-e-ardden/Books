@@ -44,10 +44,10 @@ steps:
               chmod --silent 775 Fortify_SCA_and_Apps_22.1.0_linux_x64.run
               
               # Run the Fortify SCA installer
-              ./Fortify_SCA_and_Apps_22.1.0_linux_x64.run         \
-              --mode unattended\
-              --installdir /opt/Fortify/Fortify_SCA_and_Apps_22\
-              --fortify_license_path /tmp/Fortify/fortify.license\
+              ./Fortify_SCA_and_Apps_22.1.0_linux_x64.run            \
+              --mode unattended                                      \
+              --installdir /opt/Fortify/Fortify_SCA_and_Apps_22      \
+              --fortify_license_path /tmp/Fortify/fortify.license    \
               --MigrateSCA 0 --InstallSamples 0
               chmod--silent -R 775 /opt/Fortify/Fortify_SCA_and_Apps_22/bin
               
