@@ -75,9 +75,9 @@ steps:
 - task: FortifyScanCentralSAST@7
   inputs:
     scanCentralCtrlUrl: 'https://fortify.cyberxdemo.com:10443/scancentral-ctrl'
-    scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    scanCentralClientToken: '$(CLIENT_AUTH_TOKEN)'
     sscUrl: 'https://fortify.cyberxdemo.com:8443/ssc'
-    sscCiToken: '$(ScanCentral.SscCiToken)'
+    sscCiToken: '$(CI_TOKEN)'
     uploadToSSC: true
     applicationName: 'Project-1'
     applicationVersion: 'Plugin-SC-G'
