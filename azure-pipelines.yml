@@ -41,7 +41,7 @@ steps:
       # Fortify SCA Setup without plugin
       echo "Downloading Fortify SCA"
       if sourceanalyzer -version >dev/null 2>&1; then
-        echo "Fortify is alerady installed"
+        echo "Fortify is already installed"
       else
         # Creating temporary and final directory structures
         mkdir /tmp/Fortify
@@ -76,7 +76,7 @@ steps:
   inputs:
     scanCentralCtrlUrl: 'https://fortify.cyberxdemo.com:10443/scancentral-ctrl'
     scanCentralClientToken: '$(CLIENT_AUTH_TOKEN)'
-    sscUrl: 'https://fortify.cyberxdemo.com:8443/ssc'
+    sscUrl: 'https://fortify.cyberxdemo.com:8443/ssc/'
     sscCiToken: '$(CI_TOKEN)'
     uploadToSSC: false 
     applicationName: 'Project-1'
