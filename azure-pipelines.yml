@@ -36,12 +36,10 @@ steps:
         mkdir /tmp/Fortify
         mkdir /opt/Fortify
         chmod --silent -R 775 /opt/Fortify
-        cd /tmp/Fortify      
-        
+        cd /tmp/Fortify
         # Download binaries from SSC
         curl -OLSk "https://$(SERVER_IP):8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}"
         chmod --silent 775 Fortify_SCA_and_Apps_22.1.0_linux_x64.run
-        
         # Run the Fortify SCA installer
         ./Fortify_SCA_and_Apps_22.1.0_linux_x64.run            \
         --mode unattended                                      \
@@ -49,27 +47,9 @@ steps:
         --fortify_license_path /tmp/Fortify/fortify.license    \
         --MigrateSCA 0 --InstallSamples 0
         chmod --silent -R 775 /opt/Fortify/Fortify_SCA_and_Apps_22/bin
-        
         /opt/Fortify/Fortify_SCA_and_Apps_22/bin/fortifyupdate
       fi
-      enabled:false
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Fortify SCA Setup using plugin
-      echo "Installing Fortify SCA"
-            
-      # Creating temporary and final directory structures
-      mkdir /tmp/Fortify
-      chmod --silent -R 775 /tmp/Fortify
-
-      # Download binaries from SSC
-      curl -OLS "https://$(SERVER_IP):8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}"
-      chmod --silent 775
-
-      enabled: true
+  enabled: true
 
 - task: InstallFortifySCA@7
   inputs:
@@ -78,6 +58,7 @@ steps:
     VS2022: true
     LicenseFile: '/tmp/Fortify/fortify.license'
     RunFortifyRulepackUpdate: true
+  enabled: false
 
 - task: FortifyScanCentralSAST@7
   inputs:
