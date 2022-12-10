@@ -22,6 +22,8 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
+  enabled: true
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -30,12 +32,14 @@ steps:
       echo 127.0.0.1 localhost >> ~/hosts
       sudo cp ~/hosts /etc/hosts
       cat /etc/hosts
+  enabled: true
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
       # Fortify SCA Setup without plugin
-      echo "Installing Fortify SCA"
+      echo "Downloading Fortify SCA"
       if sourceanalyzer -version >dev/null 2>&1; then
         echo "Fortify is alerady installed"
       else
@@ -47,15 +51,16 @@ steps:
         # Download binaries from SSC
         curl -OLSk "https://fortify.cyberxdemo.com:8443/ssc/downloads/{Fortify_SCA_and_Apps_22.1.0_linux_x64.run,fortify.license}"
         chmod --silent 775 Fortify_SCA_and_Apps_22.1.0_linux_x64.run
-        # Run the Fortify SCA installer
-        ./Fortify_SCA_and_Apps_22.1.0_linux_x64.run            \
-        --mode unattended                                      \
-        --installdir /opt/Fortify/Fortify_SCA_and_Apps_22      \
-        --fortify_license_path /tmp/Fortify/fortify.license    \
-        --MigrateSCA 0 --InstallSamples 0
-        chmod --silent -R 775 /opt/Fortify/Fortify_SCA_and_Apps_22/bin
-        /opt/Fortify/Fortify_SCA_and_Apps_22/bin/fortifyupdate
       fi
+        # Run the Fortify SCA installer
+        #./Fortify_SCA_and_Apps_22.1.0_linux_x64.run            \
+        #--mode unattended                                      \
+        #--installdir /opt/Fortify/Fortify_SCA_and_Apps_22      \
+        #--fortify_license_path /tmp/Fortify/fortify.license    \
+        #--MigrateSCA 0 --InstallSamples 0
+        #chmod --silent -R 775 /opt/Fortify/Fortify_SCA_and_Apps_22/bin
+        #/opt/Fortify/Fortify_SCA_and_Apps_22/bin/fortifyupdate
+      #fi
   enabled: true
 
 - task: InstallFortifySCA@7
@@ -65,8 +70,7 @@ steps:
     VS2022: true
     LicenseFile: '/tmp/Fortify/fortify.license'
     RunFortifyRulepackUpdate: true
-  enabled: false
-
+  enabled: true
 
 - task: FortifyScanCentralSAST@7
   inputs:
@@ -83,3 +87,4 @@ steps:
     block: true
     outputFile: 'scan.fpr'
     logFile: 'scn_log.fpr'
+  enabled: true
