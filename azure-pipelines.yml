@@ -78,9 +78,10 @@ steps:
     scanCentralClientToken: '$(CLIENT_AUTH_TOKEN)'
     sscUrl: 'https://fortify.cyberxdemo.com:8443/ssc/'
     sscCiToken: '$(CI_TOKEN)'
-    uploadToSSC: true 
-    applicationName: 'Project-1'
-    applicationVersion: 'Plugin-SC-G'
+    uploadToSSC: true
+    applicationIdentifierType: 'byId'
+    applicationVersionId: '10012'
+    buildFailureCriteria: '[fortify priority order]:critical'
     timeoutForPollingArtifactState: 60
     buildTool: 'gradle'
     buildFile: 'build.gradle'
