@@ -81,7 +81,6 @@ steps:
     uploadToSSC: true
     applicationName: 'Project-1'
     applicationVersion: 'Plugin-SC-G'
-    buildFailureCriteria: '[fortify priority order]:critical'
     timeoutForPollingArtifactState: 60
     buildTool: 'gradle'
     buildFile: 'build.gradle'
